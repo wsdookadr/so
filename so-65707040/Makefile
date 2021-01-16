@@ -35,7 +35,8 @@ bench_modif6:
 	./modif6_bench.sh > modif6_bench.txt
 
 plot_modif6:
-	./plot.sh "modif6_bench.txt" "modif6_bench.png"
+	./plot.sh "plot.gnuplot" "modif6_bench.txt" "modif6_bench.png"
+	./plot.sh "plot-log.gnuplot" "modif6_bench.txt" "modif6_bench_log.png"
 
 orig:
 	bash -c "time ./orig.py"
