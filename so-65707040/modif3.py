@@ -5,7 +5,6 @@ import math
 import numpy as np
 import time
 np.set_printoptions(suppress=True)
-# #!/usr/bin/python3
 
 x = Symbol('x')
 b = Function('b')(x)

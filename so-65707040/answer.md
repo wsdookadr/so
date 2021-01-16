@@ -191,14 +191,14 @@ main()
 ```
 
 
-Complexity
-----------
+Performance
+-----------
 
 I think it would be very interesting to look at the number of terms in `c[i][j]` to determine how quickly the expressions are growing. That would definitely help in estimating the complexity of the current code.
 
 But for practical purposes I've plotted the current time and memory consumption of the SymEngine code above and managed to get the following performance chart: [![performance chart][3]][3]
 
-Both the time and the memory seem to be growing quadratically with the input (the `power` parameter in the original code).
+Both the time and the memory seem to be growing polynomially with the input (the `power` parameter in the original code).
 
 Other notes
 -----------
