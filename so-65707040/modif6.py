@@ -16,7 +16,8 @@ def sum_of_coef(f):
     s = 0
     if f.func == Add:
         for sum_term in f.args:
-            res = 1
+            # res = 1
+            res = sum_term if sum_term.is_Number else 1
             if len(sum_term.args) == 0:
                 s += res
                 continue
