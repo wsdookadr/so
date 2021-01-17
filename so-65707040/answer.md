@@ -191,14 +191,68 @@ main()
 ```
 
 
-Performance
------------
+Performance after optimization #5
+---------------------------------
 
 I think it would be very interesting to look at the number of terms in `c[i][j]` to determine how quickly the expressions are growing. That would definitely help in estimating the complexity of the current code.
 
-But for practical purposes I've plotted the current time and memory consumption of the SymEngine code above and managed to get the following performance chart: [![performance chart][3]][3]
+But for practical purposes I've plotted the current time and memory consumption of the SymEngine code above and managed to get the following chart: 
+
+![performance_modif6][3]
 
 Both the time and the memory seem to be growing polynomially with the input (the `power` parameter in the original code).
+
+The same chart but as a [log-log plot](https://en.wikipedia.org/wiki/Log%E2%80%93log_plot) can be viewed here:
+
+![performance_modif6_loglog][4]
+
+Like the [wiki page](https://en.wikipedia.org/wiki/Log%E2%80%93log_plot#Relation_with_monomials) says, a straight line on a log-log plot corresponds to a monomial. [This offers a way to recover](https://math.stackexchange.com/a/3245780/68328) the exponent of the monomial.
+
+So if we consider two points N=16 and N=32 between which the log-log plot is definitely a straight line
+
+```python3
+import pandas as pd
+df=pd.read_csv("modif6_bench.txt", sep=',',header=0)
+
+def find_slope(col1,col2,i1,i2):
+    xData = df[col1].to_numpy()
+    yData = df[col2].to_numpy()
+    
+    x0,x1 = xData[i1],xData[i2]
+    y0,y1 = yData[i1],yData[i2]
+    
+    m = log(y1/y0)/log(x1/x0)
+    return m
+
+print("time slope = {0:0.2f}".format(find_slope("N","time",16,32)))
+print("memory slope = {0:0.2f}".format(find_slope("N","memory",16,32)))
+```
+
+Output:
+
+```
+time slope = 5.69
+memory slope = 2.62
+```
+
+So very rough approximation of [time complexity](https://en.wikipedia.org/wiki/Time_complexity) would be `O(n^5.69)` and an approximation of [space complexity](https://en.wikipedia.org/wiki/Space_complexity) would be `O(2^2.62)`.
+
+Performance with defined `b` and `g` functions
+----------------------------------------------
+
+In the first original code block, the functions `b` and `g` were undefined functions. This means SymPy and SymEngine didn't know anything about them.
+
+The 2nd original code block defines `b=1+x` and `g=1+x+x**2` . If we run all of this again with known `b` and `g` the code runs much faster, and the running time curve and the memory usage curves are better than with unknown functions
+
+[![enter image description here][5]][5] 
+
+[![enter image description here][6]][6]
+
+
+```
+time slope = 2.95
+memory slope = 1.35
+```
 
 Other notes
 -----------
@@ -225,3 +279,6 @@ All the code for this is also available in [this repo](https://github.com/wsdook
   [1]: https://i.stack.imgur.com/q58FS.png
   [2]: https://i.stack.imgur.com/tJBbl.png
   [3]: https://i.stack.imgur.com/cV19w.png
+  [4]: https://i.stack.imgur.com/YSgFD.png
+  [5]: https://i.stack.imgur.com/qFe4g.png
+  [6]: https://i.stack.imgur.com/sqELH.png
