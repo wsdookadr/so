@@ -39,6 +39,9 @@ def sum_of_coef(f):
         s = 1
     return s
 
+def sum_of_coef_2(f):
+    return f.subs(x,1)
+
 def main():
     import sys
     power = int(sys.argv[1])
@@ -63,8 +66,8 @@ def main():
             else:
                 expr = g*c2 + b*c1 + 2*g*c1.diff(x) + b*c0.diff(x) + g*c0.diff(x,2)
             charar[i][j] = set_to_zero(expand(expr))
-            #print(charar[i][j])
             coef_sum_array[i][j] = sum_of_coef(charar[i][j])
+            #coef_sum_array[i][j] = sum_of_coef_2(charar[i][j])
 
     #pprint.pprint(Matrix(coef_sum_array))
 
