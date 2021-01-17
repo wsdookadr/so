@@ -31,15 +31,19 @@ diff_opt_s1:
 	python3 -m cProfile -o diff_opt/s1.prof ./diff_opt/s1.py
 	gprof2dot -f pstats diff_opt/s1.prof  | dot -Tsvg -o diff_opt/s1.svg
 
-bench_modif6:
+bench6:
 	./bench.sh "modif6_bench.py" 2 42 > modif6_bench.txt
 
-bench_modif7:
+bench7:
 	./bench.sh "modif7_bench.py" 2 42 > modif7_bench.txt
 
-plot_modif6:
+plot6:
 	./plot.sh "plot.gnuplot" "modif6_bench.txt" "modif6_bench.png"
 	./plot.sh "plot-log.gnuplot" "modif6_bench.txt" "modif6_bench_log.png"
+
+plot7:
+	./plot.sh "plot.gnuplot" "modif7_bench.txt" "modif7_bench.png"
+	./plot.sh "plot-log.gnuplot" "modif7_bench.txt" "modif7_bench_log.png"
 
 orig:
 	bash -c "time ./orig.py"
