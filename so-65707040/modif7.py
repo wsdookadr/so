@@ -2,8 +2,9 @@
 from symengine import *
 import pprint
 x=var("x")
-b=Function("b")(x)
-g=Function("g")(x)
+
+b=1 + x
+g=1 + x + x**2
 
 b3,b2=b.diff(x,3),b.diff(x,2)
 g4,g3=g.diff(x,4),g.diff(x,3)
@@ -16,6 +17,9 @@ def sum_of_coef(f):
     s = 0
     if f.func == Add:
         for sum_term in f.args:
+            if isinstance(sum_term,Number) == True:
+                s += sum_term
+                continue
             res = 1
             if len(sum_term.args) == 0:
                 s += res
@@ -43,6 +47,7 @@ def main():
     charar[0][0] = b
     charar[0][1] = g
     init_printing()
+
     for i in range(1, power):
         jmax = (i+1)*2
         for j in range(0, jmax):
@@ -60,6 +65,7 @@ def main():
                 expr = g*c2 + b*c1 + 2*g*c1.diff(x) + b*c0.diff(x) + g*c0.diff(x,2)
             charar[i][j] = set_to_zero(expand(expr))
             coef_sum_array[i][j] = sum_of_coef(charar[i][j])
+            print("{0} -> {1}".format(charar[i][j], coef_sum_array[i][j]))
 
     pprint.pprint(Matrix(coef_sum_array))
 

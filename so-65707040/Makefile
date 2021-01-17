@@ -32,7 +32,10 @@ diff_opt_s1:
 	gprof2dot -f pstats diff_opt/s1.prof  | dot -Tsvg -o diff_opt/s1.svg
 
 bench_modif6:
-	./modif6_bench.sh > modif6_bench.txt
+	./bench.sh "modif6_bench.py" 2 42 > modif6_bench.txt
+
+bench_modif7:
+	./bench.sh "modif7_bench.py" 2 42 > modif7_bench.txt
 
 plot_modif6:
 	./plot.sh "plot.gnuplot" "modif6_bench.txt" "modif6_bench.png"
