@@ -1,10 +1,10 @@
 set datafile separator ','
 set key autotitle columnhead
-set ylabel "Time (seconds)" 
-set xlabel 'N (matrix size)'
+set ylabel "log(Time) (seconds)" 
+set xlabel 'log(N) (matrix size)'
 set y2tics
 set ytics nomirror
-set y2label "Memory (KB)" 
+set y2label "log(Memory) (KB)" 
 set style line 100 lt 1 lc rgb "grey" lw 0.5 
 set grid ls 100 
 set ytics
