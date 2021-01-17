@@ -35,7 +35,7 @@ bench6:
 	./bench.sh "modif6_bench.py" 2 42 > modif6_bench.txt
 
 bench7:
-	./bench.sh "modif7_bench.py" 2 42 > modif7_bench.txt
+	./bench.sh "modif7_bench.py" 2 68 > modif7_bench.txt
 
 plot6:
 	./plot.sh "plot.gnuplot" "modif6_bench.txt" "modif6_bench.png"
