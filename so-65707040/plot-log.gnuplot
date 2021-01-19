@@ -15,8 +15,8 @@ set logscale x 2
 set logscale y 2
 set logscale y2 2
 
-set style line 101 lw 3 lt rgb "#26dfd0" # style for measuredValue (2) (light blue)
-set style line 102 lw 4 lt rgb "#b8ee30" # style for secondYAxisValue (3) (limegreen)
+set style line 101 lw 3 lt rgb "#26dfd0"
+set style line 102 lw 4 lt rgb "#b8ee30"
 
 plot filename using 1:2 with lines ls 101 axis x1y1, '' using 1:3 with lines ls 102 axis x1y2, ''
 

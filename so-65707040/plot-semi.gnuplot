@@ -1,16 +1,18 @@
 set datafile separator ','
 set key autotitle columnhead
-set ylabel "Time (seconds)" 
+set ylabel "log(Time) (seconds)" 
 set xlabel 'N (matrix size)'
 set y2tics
 set ytics nomirror
-set y2label "Memory (KB)" 
+set y2label "log(Memory) (KB)" 
 set style line 100 lt 1 lc rgb "grey" lw 0.5 
 set grid ls 100 
 set ytics
-set xtics 1 
-
+set xtics
 set xtics rotate
+
+set logscale y 2
+set logscale y2 2
 
 set style line 101 lw 3 lt rgb "#26dfd0"
 set style line 102 lw 4 lt rgb "#b8ee30"

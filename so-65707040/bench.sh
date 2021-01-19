@@ -1,5 +1,4 @@
 #!/bin/bash
-# ~ 1h to run
 PROGRAM="$1"
 START="$2"
 END="$3"

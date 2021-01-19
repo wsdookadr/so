@@ -38,7 +38,7 @@ def sum_of_coef(f):
     return s
 
 def main():
-    power = 4
+    power = 7
     charar = [[0] * (power*2) for x in range(power)]
     coef_sum_array = [[0] * (power*2) for x in range(power)]
     charar[0][0] = b

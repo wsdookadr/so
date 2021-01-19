@@ -40,10 +40,12 @@ bench7:
 plot6:
 	./plot.sh "plot.gnuplot" "modif6_bench.txt" "modif6_bench.png"
 	./plot.sh "plot-log.gnuplot" "modif6_bench.txt" "modif6_bench_log.png"
+	./plot.sh "plot-semi.gnuplot" "modif6_bench.txt" "modif6_bench_semi.png"
 
 plot7:
 	./plot.sh "plot.gnuplot" "modif7_bench.txt" "modif7_bench.png"
 	./plot.sh "plot-log.gnuplot" "modif7_bench.txt" "modif7_bench_log.png"
+	./plot.sh "plot-semi.gnuplot" "modif7_bench.txt" "modif7_bench_semi.png"
 
 orig:
 	bash -c "time ./orig.py"
