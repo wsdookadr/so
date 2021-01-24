@@ -1,0 +1,2 @@
+to convert photo
+    convert -colorspace Gray -quality 15 -rotate 270 sketch.jpg  sketch1.jpg
