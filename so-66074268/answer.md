@@ -15,17 +15,17 @@ In the most basic case, in these nested data structures, every node has one of t
 In turn, the values in the array pointed to by an arrayref can be of type scalar/hashref/arrayref.
 The same goes for the values of the hash pointed to by an arrayref, it can be of type scalar/hashref/arrayref.
 
-This induces a [tree-like](https://en.wikipedia.org/wiki/Tree_(data_structure)) structure. The algorithm for traversing such a tree would essentially be a [depth-first search](https://en.wikipedia.org/wiki/Depth-first_search)
-where some additional logic is required to check the type of the node and depending on the type decide how to recurse further.
+This induces a [tree-like](https://en.wikipedia.org/wiki/Tree_(data_structure)) structure. The algorithm for traversing such a tree is [depth-first search](https://en.wikipedia.org/wiki/Depth-first_search)
+where some additional logic is required to check the type of the node and depending on the type decide how to proceed further down the tree.
 
-In terms of analogies, all of this is not that much different than traversing a filesystem hierarchy (see [link1](https://stackoverflow.com/a/25175976/827519), [link2](https://stackoverflow.com/a/6338531/827519)).
+To make a parallel, all of this is not that much different from traversing a filesystem hierarchy (see [link1](https://stackoverflow.com/a/25175976/827519), [link2](https://stackoverflow.com/a/6338531/827519)).
 
 A [bigger list called perlres](https://github.com/thibaultduponchelle/perlres) on Perl resources is available.
 
 ---
 
-In this specific case, the function `reach` from `Deep::Hash::Utils` acts as an iterator from all paths descending from the root down to a leaf.
-Whenever a `@path` to a leaf is found, its elements are compared side-by-side with another list called `@output`, and there's two cases:
+In this specific case, the function `reach` from [`Deep::Hash::Utils`](https://metacpan.org/pod/Deep::Hash::Utils) acts as an iterator, and it returns all paths descending from the root down to each leaf.
+Whenever a `@path` to a leaf is found, its elements are compared side-by-side with another list called `@output`, and there are three cases:
 - there's no element on that position, so we store it
 - the elements are equal, so we skip them
 - the elements are different, so we merge them together in a list
