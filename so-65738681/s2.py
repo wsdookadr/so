@@ -3,7 +3,7 @@ from itertools import permutations
 import copy
 
 #
-# Goal: place k bars between among n elements
+# This is a generator for the placement of k bars among n elements
 # 
 def bars(n,k,i,L):
     if i == k:
@@ -22,30 +22,29 @@ def bars(n,k,i,L):
 # and we're printing the results.
 #
 balls = ['A','B','C']
+num_bins = 4
 seen = {}
-for p in permutations(balls):
+for stars in permutations(balls):
     # print("perm=",p)
     lb = len(balls)
 
-    for bpos in bars(lb+(lb-1),lb-1,0,[]):
+    for bpos in bars(lb+num_bins-1,num_bins-1,0,[]):
         bins = []
         b = set()
         i,j,k=0,0,0
-        while i < lb + lb - 1:
+        while i < lb + num_bins-1:
             if j < len(bpos) and i == bpos[j]:
                 bins.append(b)
                 b = set()
                 j += 1
-            elif k < len(p):
-                b.add(p[k])
+            elif k < lb:
+                b.add(stars[k])
                 k += 1
             i += 1
         bins.append(b)
 
         if str(bins) not in seen:
-            print(bpos, bins)
+            print(bins)
         seen[str(bins)] = 1
-
-bars(6,2,0,[])
 
 

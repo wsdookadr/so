@@ -2,8 +2,8 @@
 import string
 import copy
 #
-# Note: this generates all the possible placements of
-# _distinct_ labelled balls into urns.
+# This generates all the possible placements of
+# b balls into n boxes (including configurations with empty boxes).
 #
 class BinPartitions:
 
@@ -14,7 +14,7 @@ class BinPartitions:
     def print_bins(self, bins):
         L = []
         for b in bins:
-            buf = ''.join(b.keys())
+            buf = ''.join(sorted(b.keys()))
             L += [buf]
         print(",".join(L))
 
@@ -31,7 +31,8 @@ class BinPartitions:
     def get_all(self):
         self._gen_helper(self.balls,self.bins)
 
-BinPartitions(string.ascii_uppercase[:2],2).get_all()
+BinPartitions(string.ascii_uppercase[:3],3).get_all()
+#BinPartitions(string.ascii_uppercase[:2],2).get_all()
 #BinPartitions(string.ascii_uppercase[:3],3).get_all()
 #BinPartitions(string.ascii_uppercase[:6],3).get_all()
 
