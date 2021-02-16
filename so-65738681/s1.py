@@ -31,9 +31,8 @@ class BinPartitions:
     def get_all(self):
         self._gen_helper(self.balls,self.bins)
 
-#BinPartitions(['A','B'],2).get_all()
+BinPartitions(string.ascii_uppercase[:2],2).get_all()
 #BinPartitions(string.ascii_uppercase[:3],3).get_all()
-BinPartitions(string.ascii_uppercase[:6],3).get_all()
-#gen()
+#BinPartitions(string.ascii_uppercase[:6],3).get_all()
 
 
