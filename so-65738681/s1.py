@@ -3,7 +3,7 @@ import string
 import copy
 #
 # This generates all the possible placements of
-# b balls into n boxes (including configurations with empty boxes).
+# balls into boxes (configurations with empty boxes are allowed).
 #
 class BinPartitions:
 
