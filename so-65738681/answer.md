@@ -1,5 +1,5 @@
 Counting the objects
-====================
+--------------------
 
 These objects are also called k-partitions in many places.
 
@@ -10,9 +10,10 @@ The [Stirling numbers of the 2nd kind](https://en.wikipedia.org/wiki/Stirling_nu
 are counting the number of placements of `n` balls into `b` **non-empty** bins.
 
 We can extend that to the following formula to allow for empty bins
+
 `\sum_{e=0}^{b} {b\choose e} S(n,b-e) (b-e)!`
 
-<insert_img>
+[![enter image description here][1]][1]
 
 In the sum above, `e` represents the number of empty bins, so we're
 allowing between `0` and `b` empty bins, the term `binomial(b,e)` will
@@ -60,7 +61,7 @@ See also:
 
 
 Generating the objects
-======================
+----------------------
 
 Here is a recursive algorithm that generates the placements of balls into bins.
 Each ball is placed in one of the bins, then the algorithm recurses further into the
@@ -140,10 +141,13 @@ C,,AB
 ```
 
 Other algorithms for generating the objects
-===========================================
+-------------------------------------------
 
 Partition-based algorithms: [link1](https://stackoverflow.com/a/31639692/827519) ; [link2](https://stackoverflow.com/a/39199937/827519)
 
 Knuth's Algorithm U: [link1](https://codereview.stackexchange.com/a/1944/29883) ; [link2](https://stackoverflow.com/a/52240171/827519) ; [link3](https://stackoverflow.com/q/45829748/827519)
 
+All the code used in this post is [also available here](https://github.com/wsdookadr/so/tree/master/so-65738681) 
 
+
+  [1]: https://i.stack.imgur.com/hjyPi.png
