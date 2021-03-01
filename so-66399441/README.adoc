@@ -1,6 +1,6 @@
 == Description
 
-This code depends on the `pythontex` project (with its upstream repository found here) which is essentially
+This code depends on the `pythontex` project (link:https://github.com/gpoore/pythontex[upstream repo]) which is essentially
 a templating engine that allows to embed Python code inside LaTeX documents.
 
 The Makefile included here follows link:https://tex.stackexchange.com/a/232332[the steps outlined by the author] for using `pythontex`.
