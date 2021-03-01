@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{pythontex}
+\usepackage{mathtools,amssymb}
+\usepackage{amsmath}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{pycode}
+import math
+from sympy import *
+from random import randint, seed
+
+seed(2021)
+\end{pycode}
+
+\paragraph{Oppgave 3}
+
+\begin{pycode}
+a, b = randint(1,2), 3
+ab = Rational(a,b)
+
+pressure_num = lambda x: 1-x
+pressure_denom = lambda x: 1+x
+
+def pressure(x):
+  return (1-x)/(1+x)
+
+pressure_ab = Rational(pressure_num(ab),pressure_denom(ab))
+
+x, y, z = symbols('x y z')
+pressure_derivative = simplify(diff(pressure(x), x))
+
+pressure_derivative_ab = pressure_derivative
+with evaluate(False):
+    a1,b1=Dummy('a'),Dummy('b')
+    pressure_derivative_ab = pressure_derivative.subs(x,a1/b1).subs({a1: a,b1: b})
+
+\end{pycode}
+
+The partial pressure of some reaction is given as
+%
+\begin{pycode}
+print(r"\begin{align*}")
+print(r"\rho(\zeta)")
+print(r"=")
+print(latex(pressure(Symbol('\zeta'))))
+print(r"\qquad \text{for} \ 0 \leq \zeta \leq 1.")
+print(r"\end{align*}")
+\end{pycode}
+%
+\begin{enumerate}[label=\alph*)]
+    \item Evaluate $\rho(\py{a}/\py{b})$. Give a physical interpretation of your
+        answer.
+    \begin{equation*}
+        \rho(\py{a}/\py{b})
+        = \frac{1-(\py{ab})}{1+\py{ab}}
+        = \frac{\py{pressure_num(ab)}}{\py{pressure_denom(ab)}}
+        \cdot \frac{\py{b}}{\py{b}}
+        = \py{latex(pressure_ab)}
+    \end{equation*}
+\end{enumerate}
+
+The derivative is given as
+%
+\begin{pycode}
+print(r"\begin{align*}")
+print(r"\rho'({})".format(ab))
+print(r"=")
+print(latex(pressure_derivative))
+print(r"=")
+print(latex(pressure_derivative_ab))
+print(r"\end{align*}")
+\end{pycode}
+
+\end{document}

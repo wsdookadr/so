@@ -1,0 +1,12 @@
+== Description
+
+This code depends on the `pythontex` project (with its upstream repository found here) which is essentially
+a templating engine that allows to embed Python code inside LaTeX documents.
+
+== Versions
+
+* PythonTex 0.16 (as reported by `pythontex3 --version`) that comes from the pythontex project that can be installed in Debian using
+  `sudo apt-get install --no-install-recommends texlive-extra-utils`. The version of the
+  debian package used was `2018.20190227-2`
+* The `texlive` package in Debian, version `2018.20190227-2`
+* SymPy 1.7.1 installed via `pip3` 
