@@ -3,6 +3,8 @@
 This code depends on the `pythontex` project (with its upstream repository found here) which is essentially
 a templating engine that allows to embed Python code inside LaTeX documents.
 
+The Makefile included here follows link:https://tex.stackexchange.com/a/232332[the steps outlined by the author] for using `pythontex`.
+
 == Versions
 
 * PythonTex 0.16 (as reported by `pythontex3 --version`) that comes from the pythontex project that can be installed in Debian using
