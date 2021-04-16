@@ -1,0 +1,18 @@
+ID                       Position   Potential  Jury agreement NGlyc result
+(PART 1)
+NP_073551.1_HCoV229Egp2   23 NTSY   0.5990     (8/9)           +     
+NP_073551.1_HCoV229Egp2   62 NTSS   0.7076     (9/9)           ++        
+NP_073551.1_HCoV229Egp2  171 NTTI   0.5743     (5/9)           +     
+...
+(PART 2)
+QJY77946.1_NA             20 NGTN   0.7514     (9/9)           +++   
+QJY77946.1_NA             23 NTSH   0.5368     (5/9)           +     
+QJY77946.1_NA             51 NFSF   0.7120     (9/9)           ++    
+QJY77946.1_NA             62 NTSS   0.6947     (9/9)           ++  
+...
+(PART 3)
+QJY77954.1_NA             20 NGTN   0.7694     (9/9)           +++   
+QJY77954.1_NA             23 NTSH   0.5398     (5/9)           +     
+QJY77954.1_NA             51 NFSF   0.7121     (9/9)           ++      
+...
+(PART N°...)
