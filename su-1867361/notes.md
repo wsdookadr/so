@@ -10,7 +10,7 @@ I ended up [writing a script](https://github.com/wsdookadr/so/blob/master/su-186
 like the one you're describing for my needs, it works a lot like what you described.
 
 I had to write some provisioning via Terraform, Ansible and Proxmox to
-test it thoroughly. There were two scenarios tested:
+test it thoroughly. I've tested a few scenarios:
 
 - samba share gets mounted on the host and then mounted onto the docker container
 - samba share gets directly mounted into docker compose
