@@ -1,0 +1,6 @@
+[all:vars]
+smb_vers="3.11"
+
+[all]
+lxc1 ansible_host=192.168.1.171 ansible_user=root ansible_port=22 ansible_ssh_private_key_file=~/.ssh/modern ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+lxc2 ansible_host=192.168.1.172 ansible_user=root ansible_port=22 ansible_ssh_private_key_file=~/.ssh/modern ansible_ssh_common_args='-o StrictHostKeyChecking=no'

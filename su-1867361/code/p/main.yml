@@ -1,0 +1,167 @@
+---
+- name: Common packages
+  hosts: all
+  become: true
+  tasks:
+    - name: Common packages
+      apt:
+        pkg:
+          - jq
+          - htop
+          - mc
+          - net-tools
+          - fping
+          - tmux
+          - telnet
+        state: latest
+        update_cache: true
+
+- name: Samba server
+  hosts: lxc1
+  become: true
+  tasks:
+    - name: Packages
+      apt:
+        pkg:
+          - samba
+          - samba-common-bin
+          - smbclient
+
+    - name: Create guest user for samba
+      user:
+        name: guest
+        create_home: yes
+        group: sambashare
+
+    - name: Create samba share
+      ansible.builtin.file:
+        path: /home/nas/shared
+        owner: guest
+        group: sambashare
+        state: directory
+        mode: '0777'
+
+    - name: Set up Samba server
+      template:
+        src: ../templates/smb.conf
+        dest: /etc/samba/smb.conf
+      register: samba_conf
+
+    - name: Restart Samba
+      service:
+        name: smbd
+        state: restarted
+      when: samba_conf.changed
+    
+    - name: Copy over start/stop random simulator
+      ansible.builtin.copy:
+        src: ../templates/random_start_stop.sh
+        dest: /usr/bin/random_start_stop.sh
+
+    - name: Permissions for script
+      ansible.builtin.file:
+        path: /usr/bin/random_start_stop.sh
+        state: touch
+        mode: '0777'
+
+    - name: Set empty password for guest user
+      shell: >
+        bash -c 'echo -e "\n" | smbpasswd -L -a guest'
+      tags: ["empty"]
+
+    - name: Check smbd systemd service is backed up 
+      stat:
+        path: /lib/systemd/system/smbd.service.bak
+      register: smbd_systemd_check
+      tags: ["backup"]
+
+    - name: Back up smbd systemd file so we can revert
+      ansible.builtin.copy:
+        src: /lib/systemd/system/smbd.service
+        dest: /lib/systemd/system/smbd.service.bak
+        remote_src: true
+      when: not smbd_systemd_check.stat.exists
+      tags: ["backup"]
+
+
+- name: Samba client
+  hosts: lxc2
+  become: true
+  tasks:
+    - name: Packages
+      apt:
+        pkg:
+          - cifs-utils
+          - smbclient
+
+    - name: Check if Docker installed
+      shell: dpkg -l | grep docker | wc -l
+      register: docker_check
+
+    - name: Install Docker
+      shell: sudo curl -fsSL https://get.docker.com | sh
+      when: docker_check.stdout == "0"
+
+    - name: Create sambausers group
+      ansible.builtin.group:
+        name: sambausers
+        state: present
+      tags: ["user"]
+
+    - name: Create guest user for samba
+      user:
+        name: user
+        create_home: yes
+        shell: /bin/bash
+        groups: ["docker", "sambausers"]
+      tags: ["user"]
+
+    - name: Create mount point
+      file:
+        path: /home/nas/shared
+        state: directory
+        owner: user
+        group: sambausers
+        mode: '0755'
+
+    - name: Mount shared
+      mount:
+        src: //192.168.1.171/shared
+        path: /home/nas/shared
+        opts: "rw,vers={{ smb_vers }},guest,dir_mode=0777,file_mode=0777"
+        fstype: cifs
+        state: mounted
+      tags: ["mount"]
+
+    - name: Add aliases
+      become: true
+      become_user: user
+      blockinfile:
+        path: /home/user/.bashrc
+        insertafter: "EOF"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          alias d-c="docker compose"
+          alias d-i="docker images"
+          alias drm="docker rmi"
+      tags: ["alias"]
+
+    - name: Check if fstab is backed up
+      stat:
+        path: /etc/fstab.bak
+      register: fstab_check
+      tags: ["backup"]
+
+    - name: Back up fstab
+      ansible.builtin.copy:
+        src: /etc/fstab
+        dest: /etc/fstab.bak
+        remote_src: true
+      when: not fstab_check.stat.exists
+      tags: ["backup"]
+
+    - name: Copy over watchdog script
+      ansible.posix.synchronize:
+        src: ../templates/watchdog.sh
+        dest: /home/user/
+      tags: ["watchdog"]

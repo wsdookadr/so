@@ -1,0 +1,11 @@
+[Unit]
+Description=Samba Mount + Docker Watchdog
+After=network-online.target
+Requires=samba-docker.service
+
+[Timer]
+OnCalendar=*-*-* *:*:00/4
+Unit=samba-docker.service
+
+[Install]
+WantedBy=timers.target

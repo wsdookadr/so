@@ -1,0 +1,62 @@
+---
+- name: Reset lxc2
+  hosts: lxc2
+  become: true
+  tasks:
+    - name: Kill watchdog
+      shell: pkill -9 -f watchdog.sh
+      failed_when: 0
+    - name: Restart Docker
+      service:
+        name: docker
+        state: restarted
+    - name: Stop all docker containers
+      shell: docker stop $(docker ps -a -q) || true
+    - name: Remove all containers, volumes, networks and cached objects
+      shell: docker system prune -a -f
+    - name: Unmount the mount if it's there
+      shell: umount /home/nas/shared || true
+    - name: Wipe out home dir
+      become: true
+      become_user: user
+      shell:
+        chdir: /home/user
+        cmd: rm -rf app/
+    - name: Restore fstab
+      ansible.builtin.copy:
+        src: /etc/fstab.bak
+        dest: /etc/fstab
+        remote_src: true
+      ignore_errors: true
+    - name: Mount shared
+      mount:
+        src: //192.168.1.171/shared
+        path: /home/nas/shared
+        opts: "rw,vers={{ smb_vers }},guest,dir_mode=0777,file_mode=0777"
+        fstype: cifs
+        state: mounted
+      tags: ["mount"]
+    - name: Restart remote-fs to restore remote filesystems
+      ansible.builtin.systemd_service:
+        state: restarted
+        daemon_reload: true
+        name: remote-fs.target
+
+- name: Reset lxc1
+  hosts: lxc1
+  become: true
+  tasks:
+    - name: Restore samba service
+      ansible.builtin.copy:
+        src: /lib/systemd/system/smbd.service.bak
+        dest: /lib/systemd/system/smbd.service
+        remote_src: true
+      ignore_errors: true
+    - name: Restart smbd
+      shell: |
+        systemctl daemon-reload 
+        systemctl reenable smbd
+    - name: Kill random start stop
+      shell: /usr/bin/pkill -9 -f random_start_stop.sh
+      failed_when: 0
+

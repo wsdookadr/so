@@ -1,0 +1,15 @@
+---
+- name: "Scenario 1: Long NAS boot time"
+  hosts: lxc1
+  tasks:
+    - name: Delay smbd
+      blockinfile:
+        path: /lib/systemd/system/smbd.service
+        block: 'ExecStartPre=/usr/bin/sleep 26'
+        insertbefore: '^ExecStartPre='
+        marker: "# {mark} ANSIBLE MANAGED BLOCK "
+    - name: Update and restart smbd
+      shell: |
+        systemctl daemon-reload 
+        systemctl reenable smbd
+

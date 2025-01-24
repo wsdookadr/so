@@ -1,0 +1,7 @@
+services:
+  app:
+    build: ./
+    volumes:
+      - /home/nas/shared:/home/nas/shared
+
+

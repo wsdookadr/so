@@ -1,0 +1,33 @@
+- name: Fix attempt for scenario 1 (long boot-time)
+  hosts: lxc2
+  become: true
+  tasks:
+    - name: Copy fix script
+      copy:
+        src: ../templates/samba-docker-fix.sh
+        dest: /usr/bin/samba-docker-fix.sh
+        mode: '0755'
+    
+    - name: Copy systemd service
+      synchronize:
+        src: ../templates/samba-docker.service
+        dest: /etc/systemd/system/samba-docker.service
+
+    - name: Copy systemd timer
+      synchronize:
+        src: ../templates/samba-docker.timer
+        dest: /etc/systemd/system/samba-docker.timer
+
+    - name: Set up service
+      ansible.builtin.systemd_service:
+        name: samba-docker.service
+        state: stopped
+        daemon_reload: true
+        enabled: true
+
+    - name: Set up timer
+      ansible.builtin.systemd_service:
+        name: samba-docker.timer
+        state: started
+        daemon_reload: true
+        enabled: true

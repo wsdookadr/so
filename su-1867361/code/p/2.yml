@@ -1,0 +1,38 @@
+---
+- name: "Scenario 2"
+  hosts: lxc2
+  tasks:
+    - name: Common packages
+      apt:
+        pkg:
+          - rsync
+
+    - name: Copy over docker writer app
+      ansible.posix.synchronize:
+        src: ../templates/app1/
+        dest: /home/user/app
+        recursive: true
+      tags: ["rsync"]
+
+    - name: Copy loop script
+      ansible.posix.synchronize:
+        src: ../templates/samba_write_loop.sh
+        dest: /home/user/app/
+      tags: ["rsync"]
+
+    - name: Change perms
+      ansible.builtin.file:
+        path: /home/user/app
+        state: directory
+        recurse: yes
+        owner: user
+        group: sambausers
+      tags: ["rsync"]
+
+    - name: Start docker compose
+      become: true
+      become_user: user
+      shell: 
+        cmd: docker compose up -d
+        chdir: /home/user/app
+
