@@ -6,17 +6,23 @@ it returns
 
 I've actually had this problem on my side. There are power outages over here.
 
-I ended up writing a script like the one you're describing for my needs, it works a lot like what you described.
+I ended up [writing a script](https://github.com/wsdookadr/so/blob/master/su-1867361/code/templates/samba-docker-fix.sh)
+like the one you're describing for my needs, it works a lot like what you described.
 
 I had to write some provisioning via Terraform, Ansible and Proxmox to
 test it thoroughly. There were two scenarios tested:
 
 - samba share gets mounted on the host and then mounted onto the docker container
 - samba share gets directly mounted into docker compose
+- long boot-times for the NAS
 
-Even though I was recommended to use the latter, I noticed the former works better.
+Even though I was recommended to mount the Samba share directly onto the container, I've noticed it's actually
+more practical to mount it on the host (because mounting directly onto the container won't allow me to stop the container
+when the mount point is frozen).
 
 For now, the docker stacks are hardcoded although it would be possible
 to pick up the right docker stack paths automatically (the ones that make use of Samba shares).
+
+About long boot-times for the NAS I've tried some systemd fstab options such as  [x-systemd.device-timeout](https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html#x-systemd.device-timeout=) and [x-systemd.mount-timeout](https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html#x-systemd.mount-timeout=), neither of which worked as advertised in their respective documentations. 
 
 [code](https://github.com/wsdookadr/so/tree/master/su-1867361)
