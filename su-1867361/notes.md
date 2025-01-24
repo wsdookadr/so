@@ -7,7 +7,8 @@ it returns
 I've actually had this problem on my side. There are power outages over here.
 
 I ended up [writing a script](https://github.com/wsdookadr/so/blob/master/su-1867361/code/templates/samba-docker-fix.sh)
-like the one you're describing for my needs, it works a lot like what you described.
+like the one you're describing for my needs, it works a lot like what you described. It then gets scheduled to run
+periodically as a [systemd timer](https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html).
 
 I had to write some provisioning via Terraform, Ansible and Proxmox to
 test it thoroughly. I've tested a few scenarios:
