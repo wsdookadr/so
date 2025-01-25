@@ -16,18 +16,18 @@ if [[ "$C" -eq "1" ]]; then
 	# is Samba share unmounted or unresponsive
 	if [ "$A" -ne "0" ] || [ "$B" -ne "0" ]; then
 		for s in "${DC[@]}"; do
-			cd $s; docker compose stop;
+			sudo -u user bash -c "cd $s; docker compose stop;"
 		done
 		umount -A --recursive /home/nas/
 		mount -a
 		for s in "${DC[@]}"; do
-			cd $s; docker compose up -d;
+			sudo -u user bash -c "cd $s; docker compose up -d;"
 		done
 	fi
 else
 	umount -A --recursive /home/nas/
 	for s in "${DC[@]}"; do
-		cd $s; docker compose stop;
+		sudo -u user bash -c "cd $s; docker compose stop;"
 	done
 fi
 

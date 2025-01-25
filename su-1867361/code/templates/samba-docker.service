@@ -3,7 +3,7 @@ Description=Samba Docker Fix
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c 'sudo -u user /usr/bin/samba-docker-fix.sh'
+ExecStart=/usr/bin/samba-docker-fix.sh
 User=root
 Group=systemd-journal
 
