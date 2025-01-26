@@ -2,8 +2,8 @@
 IP="192.168.1.171"
 SHARE="/shared"
 A=$(cat /proc/mounts | grep /home/nas/shared | wc -l)
-B=$(timeout 0.2 ls /home/nas/shared/ >/dev/null 2>/dev/null ; echo $?)
-C=$(timeout 2 smbclient //$IP$SHARE -U guest% -c 'dir' >/dev/null 2>/dev/null; echo $?)
+B=$(timeout 13 ls /home/nas/shared/ >/dev/null 2>/dev/null ; echo $?)
+C=$(timeout 13 smbclient //$IP$SHARE -U guest% -c 'dir' >/dev/null 2>/dev/null; echo $?)
 A=$(( !$A ))
 C=$(( !$C ))
 
